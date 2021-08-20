@@ -6,7 +6,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang='ko'>
         <Head>
-          <title>Extension Injection</title>
+          <title>Injection</title>
           <meta charSet="utf-8"></meta>
         </Head>
           <body>
