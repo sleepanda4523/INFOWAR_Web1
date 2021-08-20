@@ -5,13 +5,19 @@ const path = require('path');
 const connection = mysql.createConnection(dbconfig);
 let checkTable = true;
 
-connection.connect();
-connection.query("SHOW TABLES", function(err, rows, fields) {
-    if (err) throw err;
-    if(rows.length === 0){
-        checkTable = false;
-    }
-});
+function init() {
+    connection.connect();
+
+    connection.query(`USE ${process.env.SQLDATABASE}`, function(err, rows, fields) {
+        if (err) throw err;
+    });
+    connection.query("SHOW TABLES", function(err, rows, fields) {
+        if (err) throw err;
+        if(rows.length === 0){
+            checkTable = false;
+        }
+    });
+}
 
 function check() {
     if(!checkTable){
@@ -51,7 +57,7 @@ function check() {
         });
     }
 }
-
+setTimeout(init, 500);
 setTimeout(check, 1500);
 
 module.exports = connection;
