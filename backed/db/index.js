@@ -4,9 +4,8 @@ const path = require('path');
 
 const connection = mysql.createConnection(dbconfig);
 let checkTable = true;
-console.log(dbconfig);
 connection.connect();
-
+console.log(dbconfig);
 function init() {
     
     connection.query(`USE ${process.env.SQLDATABASE}`, function(err, rows, fields) {
