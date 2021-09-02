@@ -2,6 +2,7 @@
 1. docker 설치
 2. image pull
 	`sudo docker pull sleepanda4523/injection`
+  `sudo docker pull mysql`
 3. docker-compose.yml 생성
 ```
 version: '3.1'
