@@ -14,6 +14,19 @@ services:
       - "3000:3000"
     restart: "always"
     network_mode: host
+  
+    
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: mysql
+    network_mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ctfadmin
+      MYSQL_PASSWORD: ctfadmin1234
+      MYSQL_DATABASE: ctfweb
 ```
 4. docker-compose 실행
   `docker-compose up -d`
