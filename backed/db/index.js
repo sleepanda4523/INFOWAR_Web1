@@ -4,9 +4,10 @@ const path = require('path');
 
 const connection = mysql.createConnection(dbconfig);
 let checkTable = true;
-connection.connect();
-console.log(dbconfig);
+
 function init() {
+    connection.connect();
+    console.log(dbconfig);
     
     connection.query(`USE ${process.env.SQLDATABASE}`, function(err, rows, fields) {
         if (err) throw err;
@@ -57,7 +58,7 @@ function check() {
         });
     }
 }
-setTimeout(init, 500);
-setTimeout(check, 1500);
+setTimeout(init, 1500);
+setTimeout(check, 3000);
 
 module.exports = connection;
