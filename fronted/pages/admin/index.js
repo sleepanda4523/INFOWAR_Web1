@@ -52,6 +52,7 @@ const adminHome = () => {
                 </li>
             ))}
         </ul>
+        {/*SELECT * FROM image WHERE name=''*/}
         </div>
     )
 }
