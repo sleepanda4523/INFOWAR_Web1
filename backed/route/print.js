@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const db = require('../db/index.js');
 const { adminToken } = require('../middleware/adminauth.js');
 require('dotenv').config();
@@ -13,7 +14,7 @@ router.post('/', adminToken, (req, res) => {
     }
     db.query(`SELECT * FROM image WHERE name='${filename}'`, (err, rows, fields) =>{
         if(err || rows.length === 0) {
-            console.log('debuf!!');
+            console.log(err);
             return res.status(404).json({
                 errorMessage : "Not Found"
             })
@@ -39,7 +40,15 @@ router.get('/:filename', (req, res) => {
         }
         const path = rows[0].path;
         console.log(path);
-        return res.status(200).sendFile(path);
+        fs.exists(path,  function(exists){
+            if(exists){
+                return res.status(200).sendFile(path);
+            } else {
+                return res.status(404).json({
+                    errorMessage : "Not Found"
+                })
+            }
+        });
     })
 })
 

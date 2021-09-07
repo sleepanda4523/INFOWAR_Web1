@@ -52,7 +52,6 @@ const adminHome = () => {
                 </li>
             ))}
         </ul>
-        <div dangerouslySetInnerHTML={{ __html: "<!-- SELECT * FROM image WHERE name='' -->" }} />
         </div>
     )
 }

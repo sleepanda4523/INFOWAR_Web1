@@ -22,17 +22,19 @@ function init() {
 
 function check() {
     if(!checkTable){
+        connection.query("CREATE TABLE image (name VARCHAR(200) NOT NULL PRIMARY KEY, extension VARCHAR(100), path VARCHAR(255))", 
+            function(err, rows, fields) {
+        if (err) throw err;
+        console.log('Make Image Table!');
+        });
+
         connection.query("CREATE TABLE user (num INT NOT NULL PRIMARY KEY, name VARCHAR(10), id VARCHAR(20), password VARCHAR(50))", 
             function(err, rows, fields) {
         if (err) throw err;
         console.log('Make User Table!');
         });
     
-        connection.query("CREATE TABLE image (name VARCHAR(100) NOT NULL PRIMARY KEY, extension VARCHAR(100), path VARCHAR(255))", 
-            function(err, rows, fields) {
-        if (err) throw err;
-        console.log('Make Image Table!');
-        });
+        
     
         // Insert Users
         connection.query("INSERT INTO user (num, name, id, password) VALUES(1, 'Admin', 'admin', '210CF7AA5E2682C9C9D4511F88FE2789');", 
