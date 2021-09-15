@@ -1,6 +1,8 @@
 const mysql = require('mysql');
 const dbconfig = require('../config/database.js');
+const { splitFilename } = require('../middleware/splitfilename.js');
 const path = require('path');
+const fs = require('fs');
 
 const connection = mysql.createConnection(dbconfig);
 let checkTable = true;
@@ -34,8 +36,6 @@ function check() {
         console.log('Make User Table!');
         });
     
-        
-    
         // Insert Users
         connection.query("INSERT INTO user (num, name, id, password) VALUES(1, 'Admin', 'admin', '210CF7AA5E2682C9C9D4511F88FE2789');", 
             function(err, rows, fields) {
@@ -49,14 +49,20 @@ function check() {
         console.log('Insert guest');
         });
     
-        
-    
         //Insert FLAG
-        const fullpath = path.join(path.resolve(), 'images/FLAG.png');
-        connection.query(`INSERT INTO image (name, extension, path) VALUES('FLAG', 'png', '${fullpath}');`, 
-            function(err, rows, fields) {
-        if (err) throw err;
-        console.log('Insert FLAG');
+        const dir = './images/';
+        const filelist = fs.readdir(dir, function(err, filelist){
+            if(err) throw err;
+            for(let file of filelist) {
+                const fullpath = path.join(path.resolve(), dir+file);
+                console.log(fullpath)
+                const { filename, filetype } = splitFilename(file);
+                connection.query(`INSERT INTO image (name, extension, path) VALUES('${filename}', '${filetype}', '${fullpath}');`, 
+                function(err, rows, fields) {
+                    if (err) throw err;
+                    console.log(`Insert ${filename}`);
+                });
+            }
         });
     }
 }

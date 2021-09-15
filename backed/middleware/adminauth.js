@@ -7,7 +7,7 @@ const adminToken = (req, res, next) => {
     try {
         const token = req.headers.accesstoken;
         const decoded = jwt.verify(token, YOUR_SECRET_KEY);
-        //console.log(decoded);
+        console.log(decoded);
         if (decoded && decoded.id === 'admin') {
             next();
         } else {
