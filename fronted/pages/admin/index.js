@@ -1,57 +1,43 @@
-import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
 import Cookies from 'js-cookie';
 import { useState, useEffect } from 'react';
 import { server } from '../../config';
 
-const adminHome = () => {
-    //const token = Cookies.get('accesstoken');
-    const router = useRouter();
-    const [List, setList] = useState(['']);
 
-    const init = () => {
-        const token = Cookies.get('accesstoken');
+const adminHome = () => {
+    const router = useRouter();
+    const [name, setName] = useState("");
+    const [extension, setExtension] = useState("");
+
+    let token = ""
+
+    const scarch = () => {
+        token = Cookies.get('accesstoken');
         if(typeof token === 'undefined') {
-            router.push('/');
+            Router.push('/');
         }
-        fetch('/api/list', {
-            method: 'GET',
-            headers: {
-                cache: 'no-cache',
-                'accesstoken' : token
-            }
-        })
-        .then((r) => {
-            return r.json();
-        })
-        .then((data) => {
-            if(data && data.errorMessage) {
-                alert(data.errorMessage);
-                router.push('/'); 
-            } else {
-                setList(data.list);
-            }
-        })
     }
     
+    function onSubmitHandler(e) {
+        e.preventDefault();
+        Router.push(`/admin/${name}`)
+    }
     useEffect(() => {
-        init();
-    }, []);
-    //console.log(List);
+        scarch();
+    }, [])
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems:'center',width: '100%' ,height:'100vh', flexDirection:'column'}}>
-        <h1>Admin List</h1>
-        <br/>
-        <ul>
-            {List.map((data, index) => (
-                <li key={index}>
-                    <Link href={`/admin/${data.name}`}>
-                        <a key={index}>{data.name}</a>
-                    </Link>
-                </li>
-            ))}
-        </ul>
+            <h1>Admin Scarch</h1>
+            <br/>
+            <form style={{ display:'flex', flexDirection:'column'}} onSubmit={onSubmitHandler}>
+                <label>Enter File Name</label>
+                <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)}/>
+                <br />
+                <button type='submit'>
+                    Scarch
+                </button>
+            </form>
         </div>
     )
 }

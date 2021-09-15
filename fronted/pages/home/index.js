@@ -40,10 +40,16 @@ const Home = (props) => {
             body
         })
         .then((r) => {
-            return r.json();
+            if(r.status === 404){
+                return r;
+            } else {
+                return r.json();
+            }
         })
         .then((data) => {
-            if (data && data.errorMessage) {
+            if(data.status === 404) {
+                //alert(data.text);
+            } else if (data && data.errorMessage) {
                 alert(data.errorMessage);
             } else {
                 setFileType(data.filetype);

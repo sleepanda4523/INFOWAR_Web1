@@ -29,9 +29,7 @@ const Print = () => {
         .then((data) => {
             if (data && data.errorMessage) {
                 alert(data.errorMessage);
-                if(data.errorMessage === "Unauthorized") {
-                    router.push('/admin');
-                }
+                router.push('/admin');
             } else {
                 setextension(data.extension);
                 setId(id);
